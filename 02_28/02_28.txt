@@ -1,0 +1,125 @@
+Hadoop : Open system.  (Cloudera, Hortonworks, MapR 등의 유로 처리 시스템이 있음.)
+
+Hadoop 싱글모드(Single Mode) 설정
+한 대의 컴퓨터에 Name node, Data Node, Secondary name node 모두 설정.
+Name node : Master node   ,  Data node : 데이터가 분산되서 저장 해두는 노드 (Slave, worker  node)   ,   
+Secondary name node : Name node 보조.
+
+jdk-8u321-linux-x64.tar.gz (java.sun.com - Java SE 8u321)
+hadoop-3.2.2 (hadoop.apache.org - Version 3.2.2 binary) 두개 다운받아서 
+압축 풀고 ( tar -xvf 파일이름) 
+
+vi .bashrc 에서 91라인쯔음에 
+export JAVA_HOME=~/Downloads/jdk1.8.0_321
+export PATH=$PATH:$JAVA_HOME/bin
+export HADOOP_HOME=~/Downloads/hadoop-3.2.2
+export PATH=$PATH:$HADOOP_HOME/bin:HADOOP_HOME/sbin
+넣기.
+환경변수에 $ 를 붙인다? 
+
+확인은 java -version  , hadoop version
+
+-Single 모드 설정 : 최소한의 설정
+vi $HADOOP_HOME/etc/hadoop/hadoop-env.sh     ( 3.x 버전부터는 안해도 된다고 하심)
+export JAVA_HOME=~/Downloads/jdk1.8.0_321
+
+vi $HADOOP_HOME/etc/hadoop/core-site.xml
+<configuration>
+        <property>
+                <name>fs.defaultFS</name>
+                <value>hdfs://localhost:9000</value>
+        </property>
+</configuration>
+
+vi $HADOOP_HOME/etc/hadoop/workers
+localhost
+
+-Single 모드 설정 : SSH 키 생성. (Secure Shell)
+ssh-keygen -t rsa     : tsa , rsa(default)
+cd ~/.ssh/
+cp id_rsa.pub authorized_keys
+
+-Single 모드 설정 : NameNode 포맷(1회만 실행) 
+hdfs namenode -format
+
+.
+.
+.
+
+cd /tmp/hadoop-dohdong
+
+
+
+cd $HADOOP_HOME/sbin/start-dfs.sh (근데 안됨)
+
+그래서 sudo apt-get install openssh-server 하고
+netstat -ntl     하면 install 하라고 뜨는거 설치하면 
+
+위에 cd 이제 됨.
+
+
+노드들이 살아있는지 확인     jps
+
+안되면 검색해보니까 format 을 하면 된다고 함.
+
+
+- Hadoop 전체 분산모드
+- virtual box 에 여러 linux 환경 구성하여 실행, node 수 : 4개
+
+maple(master) : Name node(Primary)
+slave1 : Data Node1
+slave2 : Data Node2
+slave3 : Data Node3 , Secondary Name node
+
+----- slave1 -------
+enp0s3  	eth      -
+DHCPv4 	10.0.2.15/24 
+
+name , 아이디 , 비번 다 unbuntu 이다. 
+
+r 키를 누르고 원하는 단어를 치면 그 단어 하나만 딱 바뀐다.
+cw 키는 커서가 있던 단어가 사라지고, 편집모드로 가서 바꿀 수 있다.
+^ caret 은 시작의 의미가 있다.
+$ 달러 는 마지막의 의미를 가지고 있음.
+!v 를 하면 직전 명령어가 나온다? 
+(예를 들어 vu .bashrc 로 오타가 난 상황에는 vi 까지만 치고 !$ 즉, vi !$ 를 하면 vi .bashrc 가 잘 나온다.)
+vi 내부에서 . 만 눌러주면 직전에 수행했던 명령을 재반복할때 쓰인다. 
+
+h 만 쳐도 history 가 뜨고 , !118 로 118번째 줄 명령어를 바로 할 수 있다.
+c 만 쳐도 clear 가 되는듯 
+
+
+
+우분투 교재 108 ~ 114p 근데 중간에 update 가 너무 느려서 취소하고 reboot 했는데도 되긴함.
+
+
+IPADDR 는 
+master = 192.168.100.150 
+slave1  = 192.168.100.151
+slave2  = 192.168.100.152
+slave3  = 192.168.100.153
+
+cd /etc/netplan
+117p dhcp4 : true 면 자동으로 IP 주소를 할당받는다.
+
+118p root 로 로그인하려면 rogin 창에 root 라고 쳐서 들어가야한다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.
