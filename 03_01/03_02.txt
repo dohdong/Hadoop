@@ -1,0 +1,81 @@
+02 - 하둡 클러스터 
+ - 하둡 개요 , 하둡 클러스터 구축을 위한 설정(현재 하는중) , 워드 카운트 실행하기.
+
+03 - spark ( 내일쯤 부터 한다고 함) \
+
+
+
+Hadoop Eco System.
+
+nutch.apache.org
+
+NDFS (Nutch Distributed File System)
+RMI (Remote Method invocation) , RPC (Remote Procedure Call) 
+Thread? 
+
+
+
+
+map reduce 간단한 예제 풀어볼 예정 , map reduce 가 뭐지..
+
+Hadoop mapReduce ,  Hadoop HDFS  ,   Spark   ,  
+
+
+
+
+1. 저장장치 구성 ,  2. 데이터 수집, ( Nutch )
+3. Hadoop HDFS   4. Visualization
+5. Hadoop MapReduce 6. Unstructured Data -(chuckwa, Scribe , Flume)
+7. Structured Data - (sqoop) 8. High level interfaces -(Hive, pig, Spark, Impala)
+9.  D3.js  10. Workflow - (oozie : Linux cron )
+
+11. 
+Ganglia : 시스템 리소스(Memory, CPU , 컴퓨터) 관리
+Nagios : Networking monitoring
+Hue : 저장장치 상태 관리 UI 제공
+Chef : 프로그램 설치 용이
+
+12. 
+Zookeeper : 분산 coordination system
+AVRO : 다른 기종 간에 데이터를 주고 받는 표준(XML , JSON ) : 데이터 직렬화?
+
+
+트랜잭션 (롤백, 커밋) 이었구나! SQL 트랜잭션 명령어 ( Rollback, Commit)
+
+13. Machine Learing - ( R, mahout)
+
+14. OLTP 
+
+
+-- 빅데이터 도입 프로세스.. 
+
+
+
+------- 오후 부터는 설치하고 시작하나봄. 
+
+
+
+baseos 에서도 똑같이 바꾸고, 
+
+dnf install 하고 설치. 
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+.

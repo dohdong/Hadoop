@@ -1,0 +1,108 @@
+su -
+cd /etc/yum.repos.d
+vi CentOS-Linux-AppStream.repo
+(se nu
+ 14번 라인 복사 붙여넣고(yy -> p) 주석(#) 지우기
+ 주석 제거한 라인의 'mirror'를 'vault'로 바꾸기)
+
+vi CentOs-Linux-BaseOs.repo
+(위 작업이랑 똑같이)
+
+dnf install epel-release
+dnf install gcc make perl kernel-devel kernel-headers dkms
+
+바탕화면 - 마우스 오른쪽 - 디스플레이 설정 - 해상도 : 1920 x 1200
+
+su -
+yum install vim
+exit
+vi .bashrc
+(alias ll='ls -al'
+ alias c='clear'
+ alias h='history' 추가)
+
+source .bashrc
+
+vi .vimrc
+(set hlsearch
+set nu
+set autoindent
+set ts=4
+set sts=4
+set showmatch
+set smartcase
+set smarttab
+set smartindent
+set ruler
+set fileencodings=utf8,euc-kr)
+
+-------------------------------------------------------------------------------
+(slave2,3에서)
+su -
+hostnamectl set-hostname slave2  <- hostname바꾸기
+
+--------------------------------------------------------------------------------
+(master에서)
+1.firefox - java.sun.com
+- Java SE 8u321 / jdk-8u-321-linux-x64.tar.gz 설치
+
+2.firefox - hadoop.apache.org
+- version 3.2.2 binary - http
+
+cd 다운로드
+mv haddop-3.2.2.tar.gz ../     <- 홈디렉토리로 파일 옮기기
+mv jdk-8u321-linux-x64.tar.gz ../
+cd
+ls
+
+tar -xvf jdk-8u-321-linux-x64.tar.gz    <- 압축풀기
+tar -xvf hadoop-3.2.2.tar.gz
+
+ls
+ll
+
+vi .bashrc
+
+(export JAVA_HOME=~/jdk1.8.0_321
+export PATH=$PATH:$JAVA_HOME/bin
+export HADOOP_HOME=~/Downloads/hadoop-3.2.2
+export PATH=$PATH:$HADOOP_HOME/bin:HADOOP_HOME/sbin)
+
+source .bashrc
+java -version
+hadoop version
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
