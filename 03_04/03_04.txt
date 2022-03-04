@@ -1,0 +1,97 @@
+하둡을 하는동안 아무것도 한 게 없다... 아쉽다.. 사실 조금 화가 난다. 
+일주일동안 시간만 버린 느낌. ㅠㅜ
+
+datanode 에 cd .ssh 로 확인을 하면 authorized_keys 가 있으면 되는건데, ( slave3에는 없음.. 뭐지.. )
+
+scp ~/.ssh/id_rsa.pub slave3:~/.ssh/authorized_keys 를 해서 보내주는거임..
+
+.ssh  안에  known_hosts 가 생겼을텐데 , 한 번 접속 시도를 하면 해당노드가 이 안에 생성됨. 
+그래서 1,2가 안되는 경우에는 slave1 줄을 지우고 다시 위의 scp 를 시도해보라고 하심.
+rm 명령어로 known_hosts 를 아예 삭제하고도 해보라고 하심 . (나는 3은 애초에 안에 없고, 3만 안되는데..)
+
+
+
+
+ssh-keygen -R slave2  하고, slave2 reboot 하고, master에서 해보고 안되면 vi known_hosts 지웠다가 다시 해보고, 껐다 켜보고.. 
+
+결국 잘 안됨.. rsync 가 동작을 잘 안함. slave1 은 되긴했는데 오늘은 다 잘 안된다.
+
+그래서 하는것이.
+
+netstat -ano | more 에서 ssh slave1 을 하면 된다? 무슨 말인지 모르겠음.. 
+
+rsync 로 파일을 보내면 각 slave 에서 다운받을 필요없이 원격으로 가능하다.
+
+Name노드의 yarn-site.xml 에서 <name>yarn.~~</name> 등을 추가해줌.
+
+Data노드에서 hdfs-site.xml  secondary 인가 뭔가 추가하고 주석처리는 해둠.
+
+
+mkdir /dfs/efit log  , fsimage
+chown -R psb:psb /dfs/edit log , fsimage
+
+
+vi $HADOOP_HOME/etc/hdaoop/hdfs-site.xml 로 가서 무언가를 해야하는데 뭔지 모르겠다.ㅠ
+
+
+
+
+Secondary Name(slave3) node : hdfs-site.xml
+$ vi $HADOOP_HOME/etc/hadoop/hdfs-site.xml
+	<property>
+		<name>dfs.namenode.checkpoint.dir</name>
+		<value>file:///dfs/namesecondary</value>
+	</property>
+하고
+root@slave3 ~] 	# cd /dfs
+		# mkdir namesecondary
+		# chown -R psb:psb /dfs/namesecondary  하고  ll
+
+이렇게 한 것들을 동기화 시킴. 
+rsync -a ~/hadoop-3.2.2/etc/hadoop/ slave2:~/hadoop-3.2.2/etc/hadoop/
+rsync -a ~/hadoop-3.2.2/etc/hadoop/ slave3:~/hadoop-3.2.2/etc/hadoop/
+
+
+하둡 클러스터 실행 $HADOOP_HOME/sbin/start-all.sh 로 실행하나봄. 
+
+
+Name node 에서 
+-jps 
+	JPS
+	ResourceManager
+	NameNode
+....
+
+
+FireFox 브라우저에서 
+http://namenode-ip:9870 
+*** Live Nodes 값이 3이어야 함.
+
+클러스터 데몬 실행 .
+모두 시작 start-all.sh  ,  종료 stop-all.sh
+
+HDFS(파일시스템) 명령
+hdfs dfs -명령어 -옵션 명령행인자.
+
+-파일 업로드 후 데이터 노드에서 데이터 블록 확인
+*2008.csv.bz2 파일 을 가지고 
+*압축 풀기     $ bunzip2 2008.csv.bz2 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.
