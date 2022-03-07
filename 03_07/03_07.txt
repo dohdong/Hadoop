@@ -1,0 +1,104 @@
+root 로 가서
+cd /etc/netplan 으로 가보면 안에 yaml 파일이 하나 있다. 
+vi 01-net~~~ 으로 파일 수정.
+
+	ethernets:
+		enp0s3:
+			dhcp4: no
+			addresses: [192.168.100.150/24]
+                        	gateway4: 192.168.100.1
+                        	nameservers:
+                                		addresses: [168.126.63.1, 8.8.8.8, 8.8.4.4]
+
+하고 netplan apply 를 하면 
+
+ip addr 을 했을때 enp0s3 에 inet이 192.168.100.150/24 로 바뀐 것을 알 수 있다.
+
+cd cd $HADOOP_HOME/sbin 로 가서 ./start-dfs.sh 로 실행.
+jps 로 실행된것을 확인가능.
+
+firefox 브라우저에서. 127.0.0.1:9870 으로 들어가서 livenode 수 1개로 되어있는지 확인가능.
+
+( ---여기까지는 해봤던 부분인듯. )
+
+
+
+그 다음 http://naver.me/FH7Kduqr 로 들어가서 다운받기 ( 인데 안됨. 뭐지? 네트워크가 안되는 모습.. ㅠ )
+
+그래서 그냥 inet 10.0.2.15/24 상태(우측 상단에 전원버튼 클릭, 유선연결됨 클릭,  유선연결1 로 바꾸면 이전 네트워크로 연결 가능하다. 그러면 크롬이 잘 연결됨.) 에서 크롬으로 다운받고 다시 이전(netplan-enp0s3)으로 돌림.
+
+
+bunzip2 2008.csv.bz2 로 압축풀기. 
+hdfs dfs -mkdir /airline/   ,    (다운로드 폴더에 가서 ) hdfs dfs -put 2008.csv /airline/
+hdfs dfs -ls /airline (으로 잘 되었는지 확인 가능) 
+
+
+https://spark.org/downloads.html 가서 spark-3.1.3-bin-hadoop3.2.tgz 다운로드.
+tar -xvf spark-3.1.3-bin-hadoop3.2.tgz 
+mv spark-3.1.3-bin-hadoop3.2 ../
+mv spark-3.1.3-bin-hadoop3.2 spark-3.1.3
+cd spark-3.1.3/conf
+cp spark-env.sh.template spark-env.sh
+vi spark-env.sh
+ export SPARK_DIST_CLASSPATH=$(~/Downloads/hadoop-3.2.2/bin/hadoop classpath)
+ export JAVA_HOME=~/Downloads?/jdk1.8.0_321
+
+cp log4j.properties.template log4j.properties
+vi log4j.properties
+  log4j.rootCategory=WARN console (INFO 를 WARN 으로 변경)
+
+
+하둡 실행 확인 
+$ start-all.sh 
+$ jps
+
+Spark 실행
+$ cd spark-3.1.3/sbin/start-all.sh
+$ jps
+
+
+
+pyspark 실행 
+  python 설치
+	# dnf install python3.8 (CentOS)
+	# apt install python3.8 (Ubuntu)
+	# alternatives --set python /usr/bin/python3 (이걸 하면 python 만 쳐서 저 폴더에 들어가서 실행					이 되는 그런 건가본데 alternatives 가 안됨 그냥 안함ㅋㅋ )
+					( CentOS 기준이라고 함.)
+
+quit() 로 나갈 수 있음.
+
+$ ~/spark-3.1.3/bin/pyspark
+
+$ ~spark-3.1.3/bin/spark-sql
+
+
+
+
+# sudo apt update
+# sudo apt install python3-pip
+
+# python3 -m pip install notebook
+
+
+
+-Jupyter Notebook 사용환경 추가. 
+	$ vi .bashrc
+		export PYSPARK_DRIVER_PYTHON=jupyter
+		export PYSPARK_DRIVER_PYTHON_OPTS=notebook
+	$ source .bashrc
+
+- pyspark 실행
+$ ~/spark-3.1.3/bin/pyspark    # 브라우저에 Jupyter Notebook 홈 표시됨.
+이렇게 하면 하둡에서 주피터 노트북을 띄운것.
+
+2008.csv 를 pyspark 로 가져와서 데이터를 분석해볼 수 있겠음. 여기까지~
+
+
+
+
+
+
+
+
+
+.
