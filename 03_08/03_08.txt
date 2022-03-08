@@ -1,0 +1,43 @@
+인터넷이 안될땐 sudo dhclient 로 하면 된다.
+
+
+다운로드로 가서 , hdfs dfs -mkdir /wine-quality
+hdfs dfs -put winequality-red.csv /wine-quality/
+hdfs dfs -ls /wine-quality
+
+hdfs dfs -cat /wine-quality/winequality-red.csv | head -5
+
+
+
+
+주피터 노트북으로 가서.
+pip install 로 pandas 랑 pydoop.hdfs 등을 설치하고 위에 kernel 새로고침 해주면 됨 
+import pandas as pd , import pydoop.hdfs as hd 하고 
+from pandas import DataFrame
+with hd.open("/wine-quality/winequality-red.csv") as f:
+	redwine = pd.read_csv(f, sep=":")
+confusion_matrix = pd.crosstab(test_y, pred, rownames=['True'] , coliname=[ (...이후 타이핑 실패)
+
+근데 그냥 naver.me/FH7Kduqr 에 있음. 
+
+
+
+
+
+
+rsync -av ~/hadoop-3.2.2/etc/hadoop slave2:~/hadoop-3.2.2/etc/hadoop/
+
+이거 또 하는데 뭔지..
+
+
+
+결국 무엇을 배웠는지도 모르게 끝이 났다.. 흠.. 이건 뭘까...
+
+
+
+
+
+
+
+
+.
